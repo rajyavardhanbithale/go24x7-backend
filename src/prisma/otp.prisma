@@ -1,0 +1,9 @@
+model Otp {
+  id           String   @id @default(cuid())
+  phone_number String   @db.VarChar(10)
+  otp          String   @db.VarChar(6)
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+
+  @@index([expiresAt])
+}

@@ -1,14 +1,30 @@
-import { IsEmail, IsString, IsNotEmpty, MinLength, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsString, IsNotEmpty, MinLength, MaxLength, IsPhoneNumber, IsNumber, IsOptional, IsUrl, IsEmail, IsArray, ValidateNested, IsEnum, IsBoolean, IsDateString } from 'class-validator';
 
 export class CreateUserDto {
-  @IsEmail()
-  public email: string;
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(10)
+  @MaxLength(10)
+  public phone_number: string;
+
+
+}
+export class LoginUserDto {
+
+  
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(10)
+  @MaxLength(10)
+  public phone_number: string;
+
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(5)
-  @MaxLength(32)
-  public password: string;
+  @MinLength(6)
+  @MaxLength(6)
+  public otp: string;
 }
 
 export class UpdateUserDto {
@@ -18,3 +34,26 @@ export class UpdateUserDto {
   @MaxLength(32)
   public password: string;
 }
+
+export class SendOtpDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(10)
+  @MaxLength(10)
+  @IsPhoneNumber("IN")
+  public phone_number: string;
+}
+
+export class VerifyOtpDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(10)
+  @MaxLength(10)
+  @IsPhoneNumber("IN")
+  public phone_number: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public otp: number;
+}
+

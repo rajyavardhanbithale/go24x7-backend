@@ -2,7 +2,9 @@ import { Request } from 'express';
 import { User } from '@interfaces/users.interface';
 
 export interface DataStoredInToken {
-  id: number;
+  id: string;
+  phone_number: string;
+  role: string;
 }
 
 export interface TokenData {

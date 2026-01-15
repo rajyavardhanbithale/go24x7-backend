@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { SECRET_KEY } from '@config';
@@ -15,14 +15,16 @@ const getAuthorization = (req) => {
   return null;
 }
 
+
+
 export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const Authorization = getAuthorization(req);
 
     if (Authorization) {
+      const users = prisma.user;
       const { id } = (await verify(Authorization, SECRET_KEY)) as DataStoredInToken;
-      const users = new PrismaClient().user;
-      const findUser = await users.findUnique({ where: { id: Number(id) } });
+      const findUser = await users.findUnique({ where: { id: String(id) } });
 
       if (findUser) {
         req.user = findUser;

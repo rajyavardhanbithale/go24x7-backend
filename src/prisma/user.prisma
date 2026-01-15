@@ -1,0 +1,16 @@
+model User {
+  id           String   @id @default(cuid())
+  phone_number String   @unique @db.VarChar(10)
+  role         Role     @default(USER)
+  is_verified   Boolean  @default(false)
+  is_active     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+  RIDER
+  OUTLET
+}

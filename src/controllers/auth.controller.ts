@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { RequestWithUser } from '@interfaces/auth.interface';
-import { User } from '@interfaces/users.interface';
+import { User, UserLogin } from '@interfaces/users.interface';
 import { AuthService } from '@services/auth.service';
 import { OtpService } from '@/services/otp.service';
 import { RequestWithOTP } from '@/interfaces/otp.interface';
@@ -15,16 +15,26 @@ export class AuthController {
   public logIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userData: LoginUserDto = req.body;
-      const { cookie, user } = await this.auth.loginOrSignup(userData);
+      const { cookie, user } = await this.auth.login(userData);
 
-      const findUser: User = user;
 
       res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({ data: findUser, message: 'login' });
+      res.status(200).json({ data: user,  message: 'login' });
     } catch (error) {
       next(error);
     }
   };
+
+  public signup = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userData = req.body;
+      const signupData = await this.auth.signup(userData);
+
+      res.status(201).json({ data: signupData, message: 'signup' });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   /* LOGOUT */
   public logOut = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {

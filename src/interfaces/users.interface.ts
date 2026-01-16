@@ -13,10 +13,15 @@ export interface User {
   updated_at?: Date;
 }
 
+export interface UserLogin {
+  cookie: string; 
+  user: UserResponse
+}
+
 
 export interface UserResponse {
   id: string;
-  phone_number: string;
+  email: string;
   is_active?: boolean;
   is_verified?: boolean;
   access_token: string;

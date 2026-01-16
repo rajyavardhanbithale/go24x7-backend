@@ -14,51 +14,59 @@ export class AuthService {
   public users = prisma.user;
   public otpService = prisma.otp;
 
-  public async loginOrSignup(userData: LoginUserDto): Promise<{ cookie: string; user: UserResponse }> {
+  public async login(userData: LoginUserDto): Promise<{ cookie: string; user: UserResponse }> {
     // Check if user exists
-    let user = await this.users.findUnique({ where: { phone_number: userData.phone_number } });
+    let user = await this.users.findUnique({ where: { email: userData.email } });
 
     // If not, create a new user (auto-signup)
     if (!user) {
-      user = await this.users.create({ data: { phone_number: userData.phone_number, is_verified: false, is_active: true } });
+      throw new HttpException(404, 'User does not exist. Please sign up first.');
     }
 
-    const otpRecord = await this.otpService.findFirst({
-      where: {
-        phone_number: userData.phone_number,
-        otp: userData.otp,
-        expiresAt: { gt: new Date() },
-      },
-    });
-
-    if (!otpRecord) throw new HttpException(400, 'Invalid or expired OTP');
-
-
-    await this.otpService.deleteMany({ where: { phone_number: userData.phone_number } });
-
-
+    // if not verified
     if (!user.is_verified) {
-      user = await this.users.update({
-        where: { id: user.id },
-        data: { is_verified: true },
-
-      });
+      throw new HttpException(403, 'User is not verified. Please verify your account.');
     }
 
-    console.log("User logged in:", user);
+    // Check if password matches
+    const isPasswordMatching: boolean = await compare(userData.password, user.password);
+    if (!isPasswordMatching) {
+      throw new HttpException(401, 'Incorrect password');
+    }
 
+    // Create token and cookie
     const tokenData = this.createToken(user);
     const cookie = this.createCookie(tokenData);
 
-    const response: UserResponse = {
-      id: user.id,
-      phone_number: user.phone_number,
-      is_active: user.is_active,
-      is_verified: user.is_verified,
-      access_token: tokenData.token,
-    };
+    // Prepare user response without password
+    const { password, ...userWithoutPassword } = { ...user, access_token: tokenData.token };
 
-    return { cookie, user: response };
+    return { cookie, user: userWithoutPassword };
+  }
+
+  public async signup(userData: CreateUserDto): Promise<{success: boolean; message: string}> {
+    // Check if user already exists
+    const findUser = await this.users.findFirst({
+      where: {
+        OR: [
+          { email: userData.email },
+          { phone_number: userData.phone_number },
+        ],
+      },
+    });
+    if (findUser) throw new HttpException(409, `User with email ${userData.email} already exists`);
+
+    // Hash password
+    userData.password = await hash(userData.password, 10);
+
+    const createUserData = await this.users.create({
+      data: userData,
+    });
+
+    return {
+      success: true,
+      message: 'User created successfully. Please verify your account to login.',
+    };
   }
 
 

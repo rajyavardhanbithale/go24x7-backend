@@ -9,7 +9,7 @@ const adapter = new PrismaPg({
     ssl: {
         rejectUnauthorized: false
     }
-})
+}, { schema: 'rajyavardhanSchema' })
 const prisma = new PrismaClient({ adapter })
 
 export { prisma }

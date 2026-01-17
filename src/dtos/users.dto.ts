@@ -1,17 +1,22 @@
-import { Type } from 'class-transformer';
-import { IsString, IsNotEmpty, MinLength, MaxLength, IsPhoneNumber, IsNumber, IsOptional, IsUrl, IsEmail, IsArray, ValidateNested, IsEnum, IsBoolean, IsDateString } from 'class-validator';
+import { IsString, IsNotEmpty, MinLength, MaxLength, IsPhoneNumber, IsNumber, IsOptional, IsUrl, IsEmail, IsArray, ValidateNested, IsEnum, IsBoolean, IsDateString, isNotEmpty, isEmail, minLength, isEnum } from 'class-validator';
+import { Role } from '@/prisma/prisma/client';
 
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  @MinLength(10)
-  @MaxLength(10)
-  public phone_number: string;
+  @MinLength(1)
+  @MaxLength(64)
+  public firstname: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(1)
+  @MaxLength(64)
+  public lastname: string;
 
-}
-export class LoginUserDto {
-
+  @IsEmail()
+  @IsNotEmpty()
+  public email: string;
   
   @IsString()
   @IsNotEmpty()
@@ -19,12 +24,30 @@ export class LoginUserDto {
   @MaxLength(10)
   public phone_number: string;
 
-
-  @IsString()
   @IsNotEmpty()
-  @MinLength(6)
-  @MaxLength(6)
-  public otp: string;
+  @IsString()
+  @MinLength(8)
+  @MaxLength(32)
+  public password: string;
+
+  @IsEnum(Role)
+  @IsOptional()
+  public role: Role;
+
+
+}
+export class LoginUserDto {
+  @IsEmail()
+  @IsNotEmpty()
+  public email: string;
+  
+  
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  @MaxLength(32)
+  public password: string;
+  
 }
 
 export class UpdateUserDto {

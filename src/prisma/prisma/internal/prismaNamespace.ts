@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Otp: 'Otp',
+  ServiceProviderCategory: 'ServiceProviderCategory',
   User: 'User'
 } as const
 
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "otp" | "user"
+    modelProps: "otp" | "serviceProviderCategory" | "user"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -476,6 +477,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.OtpCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.OtpCountAggregateOutputType> | number
+        }
+      }
+    }
+    ServiceProviderCategory: {
+      payload: Prisma.$ServiceProviderCategoryPayload<ExtArgs>
+      fields: Prisma.ServiceProviderCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServiceProviderCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServiceProviderCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.ServiceProviderCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServiceProviderCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.ServiceProviderCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.ServiceProviderCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.ServiceProviderCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServiceProviderCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.ServiceProviderCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>
+        }
+        update: {
+          args: Prisma.ServiceProviderCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.ServiceProviderCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServiceProviderCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServiceProviderCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.ServiceProviderCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServiceProviderCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.ServiceProviderCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServiceProviderCategory>
+        }
+        groupBy: {
+          args: Prisma.ServiceProviderCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceProviderCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServiceProviderCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServiceProviderCategoryCountAggregateOutputType> | number
         }
       }
     }
@@ -603,6 +678,20 @@ export const OtpScalarFieldEnum = {
 export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
 
 
+export const ServiceProviderCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  icon: 'icon',
+  parentId: 'parentId',
+  isActive: 'isActive',
+  isInHome: 'isInHome',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceProviderCategoryScalarFieldEnum = (typeof ServiceProviderCategoryScalarFieldEnum)[keyof typeof ServiceProviderCategoryScalarFieldEnum]
+
+
 export const UserScalarFieldEnum = {
   id: 'id',
   firstname: 'firstname',
@@ -634,6 +723,14 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 
@@ -671,6 +768,13 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
  * Reference to a field of type 'Role'
  */
 export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -681,13 +785,6 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
-    
-
-
-/**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -800,6 +897,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   otp?: Prisma.OtpOmit
+  serviceProviderCategory?: Prisma.ServiceProviderCategoryOmit
   user?: Prisma.UserOmit
 }
 

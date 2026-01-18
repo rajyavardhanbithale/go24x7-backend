@@ -43,6 +43,11 @@ export { Prisma }
  */
 export type Otp = Prisma.OtpModel
 /**
+ * Model ServiceProviderCategory
+ * 
+ */
+export type ServiceProviderCategory = Prisma.ServiceProviderCategoryModel
+/**
  * Model User
  * 
  */

@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Otp: 'Otp',
+  ServiceProviderCategory: 'ServiceProviderCategory',
   User: 'User'
 } as const
 
@@ -80,6 +81,20 @@ export const OtpScalarFieldEnum = {
 } as const
 
 export type OtpScalarFieldEnum = (typeof OtpScalarFieldEnum)[keyof typeof OtpScalarFieldEnum]
+
+
+export const ServiceProviderCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  icon: 'icon',
+  parentId: 'parentId',
+  isActive: 'isActive',
+  isInHome: 'isInHome',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceProviderCategoryScalarFieldEnum = (typeof ServiceProviderCategoryScalarFieldEnum)[keyof typeof ServiceProviderCategoryScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -113,4 +128,12 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
